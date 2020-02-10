@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/hallmusic/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/hallmusic/static/js/main.6f1e8dcc.chunk.js",
+    "main.js.map": "/hallmusic/static/js/main.6f1e8dcc.chunk.js.map",
+    "runtime-main.js": "/hallmusic/static/js/runtime-main.2791c256.js",
+    "runtime-main.js.map": "/hallmusic/static/js/runtime-main.2791c256.js.map",
+    "static/js/2.dd982775.chunk.js": "/hallmusic/static/js/2.dd982775.chunk.js",
+    "static/js/2.dd982775.chunk.js.map": "/hallmusic/static/js/2.dd982775.chunk.js.map",
+    "index.html": "/hallmusic/index.html",
+    "precache-manifest.85cb01b86b3734efef53794986b86aa4.js": "/hallmusic/precache-manifest.85cb01b86b3734efef53794986b86aa4.js",
+    "service-worker.js": "/hallmusic/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/hallmusic/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.dd982775.chunk.js.LICENSE.txt": "/hallmusic/static/js/2.dd982775.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2791c256.js",
+    "static/js/2.dd982775.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.6f1e8dcc.chunk.js"
+  ]
+}
