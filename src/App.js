@@ -28,16 +28,23 @@ class App extends React.Component {
         song: null,
     }
 
-    componentDidMount = () => {
+    reloadSongManifest = () => {
         getFiles(URLS[0])
             .then((songs) => {
                 this.chooseRandomSong(songs)
             })
     }
 
+    componentDidMount = () => {
+        this.reloadSongManifest()
+    }
+
     chooseRandomSong = (songs) => {
         if (!songs || !Array.isArray(songs)) {
             songs = this.state.songs
+        }
+        if (!songs.length) {
+            this.reloadSongManifest()
         }
         const i = ~~(Math.random() * songs.length)
         const song = songs[i]
