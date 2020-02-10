@@ -19,7 +19,7 @@ const App = () => {
     const chooseRandomSong = (_songs) => {
         const list = (Array.isArray(_songs) && _songs) || songs
         if (!list || !list.length) {
-            reloadSongManifest()
+            return reloadSongManifest()
         }
         const selectedSong = ~~(Math.random() * list.length)
         setSong(list[selectedSong])
