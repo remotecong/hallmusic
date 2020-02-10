@@ -44,7 +44,7 @@ class App extends React.Component {
             songs = this.state.songs
         }
         if (!songs.length) {
-            this.reloadSongManifest()
+            return this.reloadSongManifest()
         }
         const i = ~~(Math.random() * songs.length)
         const song = songs[i]
