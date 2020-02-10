@@ -1,81 +1,71 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import { css } from 'glamor'
+import { loadAllOriginalSongs } from './Api'
 
-const URLS = [
-    'https://apps.jw.org/GETPUBMEDIALINKS?output=json&pub=osg&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E',
-]
-
-const getFiles = async (url) => {
-    const res = await fetch(url)
-    if (res.ok) {
-        const data = await res.json()
-        return data.files.E.MP3
-            .map((file) => {
-                return {
-                    title: file.title,
-                    url: file.file.url,
-                    art: file.trackImage.url,
-                    raw: { ...file },
-                }
-            })
-    }
-    return []
+const style = {
+    page: css({
+        textAlign: 'center',
+        width: '90vw',
+        margin: 'auto',
+    }),
+    audioPlayer: css({
+        width: '100%',
+    }),
 }
 
-class App extends React.Component {
-    state = {
-        songs: [],
-        song: null,
+const App = () => {
+    const [songs, setSongs] = React.useState([])
+    const [song, setSong] = React.useState(null)
+    const chooseRandomSong = (_songs) => {
+        const list = (Array.isArray(_songs) && _songs) || songs
+        if (!list || !list.length) {
+            reloadSongManifest()
+        }
+        const selectedSong = ~~(Math.random() * list.length)
+        setSong(list[selectedSong])
+        setSongs(list.filter((ignore, i) => i !== selectedSong))
     }
-
-    reloadSongManifest = () => {
-        getFiles(URLS[0])
-            .then((songs) => {
-                this.chooseRandomSong(songs)
+    const reloadSongManifest = () => {
+        loadAllOriginalSongs()
+            .then((files) => {
+                chooseRandomSong(files)
             })
     }
 
-    componentDidMount = () => {
-        this.reloadSongManifest()
+    React.useEffect(() => {
+        reloadSongManifest()
+    }, [])
+
+    if (!song) {
+        return <h1>Loading...</h1>
     }
 
-    chooseRandomSong = (songs) => {
-        if (!songs || !Array.isArray(songs)) {
-            songs = this.state.songs
-        }
-        if (!songs.length) {
-            return this.reloadSongManifest()
-        }
-        const i = ~~(Math.random() * songs.length)
-        const song = songs[i]
-        this.setState({
-            songs: songs.filter((ignore, si) => si !== i),
-            song,
-        })
-    }
-
-    render = () => {
-        const { song } = this.state
-
-        if (!song) {
-            return (
-                <div className="App">
-                    <h1>Loading...</h1>
-                </div>
-            )
-        }
-
-        return (
-            <div className="App">
-                <h1>{song.title}</h1>
-                <img src={song.art} alt={song.title} />
-                <br />
-                <audio key={song.url} autoPlay controls onEnded={this.chooseRandomSong}>
-                    <source src={song.url} type="audio/mpeg" />
-                </audio>
-            </div>
-        )
-    }
+    return (
+        <React.Fragment>
+            <h1>{song.title}</h1>
+            <img src={song.art} alt={song.title} />
+            <br />
+            <audio
+                key={song.url}
+                autoPlay
+                controls
+                onEnded={chooseRandomSong}
+                {...style.audioPlayer}
+            >
+                <source src={song.url} type="audio/mpeg" />
+            </audio>
+        </React.Fragment>
+    )
 }
 
-export default App;
+
+export const Page = () => {
+    return (
+        <div {...style.page}>
+            <App />
+        </div>
+    )
+}
+
+export default Page
+
