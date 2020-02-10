@@ -11,6 +11,15 @@ const style = {
     audioPlayer: css({
         width: '100%',
     }),
+    skipButton: css({
+        background: '#711D8C',
+        border: 'none',
+        color: 'white',
+        cursor: 'pointer',
+        fontSize: '2rem',
+        outline: 'none',
+        padding: '2rem',
+    }),
 }
 
 const App = () => {
@@ -54,6 +63,7 @@ const App = () => {
             >
                 <source src={song.url} type="audio/mpeg" />
             </audio>
+            <button {...style.skipButton} onClick={chooseRandomSong}>Next Song</button>
         </React.Fragment>
     )
 }
