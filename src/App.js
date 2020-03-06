@@ -50,7 +50,7 @@ const App = () => {
     }
 
     return (
-        <React.Fragment>
+        <div {...style.page}>
             <h1>{song.title}</h1>
             <img src={song.art} alt={song.title} />
             <br />
@@ -64,18 +64,10 @@ const App = () => {
                 <source src={song.url} type="audio/mpeg" />
             </audio>
             <button {...style.skipButton} onClick={chooseRandomSong}>Next Song</button>
-        </React.Fragment>
-    )
-}
-
-
-export const Page = () => {
-    return (
-        <div {...style.page}>
-            <App />
         </div>
     )
 }
 
-export default Page
+
+export default App
 
