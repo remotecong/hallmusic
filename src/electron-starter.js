@@ -11,6 +11,7 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
         },
+        frame: false,
     })
 
     const startUrl = process.env.ELECTRON_START_URL || url.format({
@@ -35,7 +36,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-    if (!BrowserWindow.getAllWindowws().length) {
+    if (!BrowserWindow.getAllWindows().length) {
         createWindow()
     }
 })
