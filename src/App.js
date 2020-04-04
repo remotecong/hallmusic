@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import { loadAllOriginalSongs } from './Api'
+import Clock from './clock';
 
 const style = {
     page: css({
@@ -10,6 +11,7 @@ const style = {
     }),
     audioPlayer: css({
         width: '100%',
+        display: 'none',
     }),
     skipButton: css({
         background: '#711D8C',
@@ -25,7 +27,7 @@ const style = {
 const App = () => {
     const [songs, setSongs] = React.useState([])
     const [song, setSong] = React.useState(null)
-    const [volumeChanged, setVolumeChanged] = React.useState(false);
+    const [volumeChanged, setVolumeChanged] = React.useState(false)
 
     const chooseRandomSong = (_songs) => {
         const list = (Array.isArray(_songs) && _songs) || songs
@@ -62,9 +64,7 @@ const App = () => {
 
     return (
         <div {...style.page}>
-            <h1>{song.title}</h1>
-            <img src={song.art} alt={song.title} />
-            <br />
+            <Clock />
             <audio
                 key={song.url}
                 autoPlay
@@ -75,7 +75,6 @@ const App = () => {
             >
                 <source src={song.url} type="audio/mpeg" />
             </audio>
-            <button {...style.skipButton} onClick={chooseRandomSong}>Next Song</button>
         </div>
     )
 }
