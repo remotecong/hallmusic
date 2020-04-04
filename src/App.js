@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "glamor";
-import { loadAllOriginalSongs } from "./Api";
+import { loadAllSongs } from "./Api";
 import Clock from "./clock";
 
 const style = {
@@ -38,7 +38,7 @@ const App = () => {
     setSongs(list.filter((ignore, i) => i !== selectedSong));
   };
   const reloadSongManifest = () => {
-    loadAllOriginalSongs().then((files) => {
+    loadAllSongs().then((files) => {
       chooseRandomSong(files);
     });
   };
@@ -56,7 +56,7 @@ const App = () => {
   // and can't use volume attribute for some reason, it's ignored
   // on chrome at least
   const onStart = (e) => {
-    e.target.volume = 0.1;
+    e.target.volume = 0.06;
   };
 
   return (

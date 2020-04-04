@@ -1,5 +1,8 @@
 export const URLS = [
-    'https://apps.jw.org/GETPUBMEDIALINKS?output=json&pub=osg&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E',
+    //'https://apps.jw.org/GETPUBMEDIALINKS?output=json&pub=osg&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E', //original songs
+    'https://pubmedia.jw-api.org/GETPUBMEDIALINKS?output=json&pub=sjjm&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E', //meetings
+    'https://pubmedia.jw-api.org/GETPUBMEDIALINKS?output=json&pub=sjjc&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E', //chorus
+    'https://pubmedia.jw-api.org/GETPUBMEDIALINKS?output=json&pub=sjji&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E', //instrumentals
 ]
 
 export const getFiles = async (url) => {
@@ -18,6 +21,9 @@ export const getFiles = async (url) => {
     return []
 }
 
-export const loadAllOriginalSongs = async () => {
-    return await getFiles(URLS[0])
+export const loadAllSongs = async () => {
+    return await Promise.all(URLS.map(getFiles))
+        .then((songs) => {
+            return songs.reduce((coll, list) => coll.concat(list), []);
+        });
 }
