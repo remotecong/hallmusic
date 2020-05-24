@@ -17,7 +17,7 @@
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
-    "start": "electron-forge start",
+    "start": "react-scripts start",
     "dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
     "electron": "electron .",
     "test": "react-scripts test",
