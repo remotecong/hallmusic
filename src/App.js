@@ -1,81 +1,79 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import { css } from "glamor";
+import { loadAllSongs } from "./Api";
+import Clock from "./clock";
 
-const URLS = [
-    'https://apps.jw.org/GETPUBMEDIALINKS?output=json&pub=osg&fileformat=MP3&alllangs=0&langwritten=E&txtCMSLang=E',
-]
+const style = {
+  page: css({
+    textAlign: "center",
+    width: "90vw",
+    margin: "auto",
+  }),
+  audioPlayer: css({
+    width: "100%",
+    display: "none",
+  }),
+  skipButton: css({
+    background: "#711D8C",
+    border: "none",
+    color: "white",
+    cursor: "pointer",
+    fontSize: "2rem",
+    outline: "none",
+    padding: "2rem",
+  }),
+};
 
-const getFiles = async (url) => {
-    const res = await fetch(url)
-    if (res.ok) {
-        const data = await res.json()
-        return data.files.E.MP3
-            .map((file) => {
-                return {
-                    title: file.title,
-                    url: file.file.url,
-                    art: file.trackImage.url,
-                    raw: { ...file },
-                }
-            })
+const App = () => {
+  const [songs, setSongs] = React.useState([]);
+  const [song, setSong] = React.useState(null);
+
+  const chooseRandomSong = (_songs) => {
+    const list = (Array.isArray(_songs) && _songs) || songs;
+    if (!list || !list.length) {
+      return reloadSongManifest();
     }
-    return []
-}
+    const selectedSong = ~~(Math.random() * list.length);
+    setSong(list[selectedSong]);
+    setSongs(list.filter((ignore, i) => i !== selectedSong));
+  };
+  const reloadSongManifest = () => {
+    loadAllSongs().then((files) => {
+      chooseRandomSong(files);
+    });
+  };
 
-class App extends React.Component {
-    state = {
-        songs: [],
-        song: null,
-    }
+  React.useEffect(() => {
+    reloadSongManifest();
+  }, []);
 
-    reloadSongManifest = () => {
-        getFiles(URLS[0])
-            .then((songs) => {
-                this.chooseRandomSong(songs)
-            })
-    }
+  if (!song) {
+    return null;
+  }
 
-    componentDidMount = () => {
-        this.reloadSongManifest()
-    }
+  // TODO: fix hack
+  // couldn't use a ref because it's ready after first song
+  // and can't use volume attribute for some reason, it's ignored
+  // on chrome at least
+  const onStart = (e) => {
+    e.target.volume = 0.06;
+  };
 
-    chooseRandomSong = (songs) => {
-        if (!songs || !Array.isArray(songs)) {
-            songs = this.state.songs
-        }
-        if (!songs.length) {
-            return this.reloadSongManifest()
-        }
-        const i = ~~(Math.random() * songs.length)
-        const song = songs[i]
-        this.setState({
-            songs: songs.filter((ignore, si) => si !== i),
-            song,
-        })
-    }
-
-    render = () => {
-        const { song } = this.state
-
-        if (!song) {
-            return (
-                <div className="App">
-                    <h1>Loading...</h1>
-                </div>
-            )
-        }
-
-        return (
-            <div className="App">
-                <h1>{song.title}</h1>
-                <img src={song.art} alt={song.title} />
-                <br />
-                <audio key={song.url} autoPlay controls onEnded={this.chooseRandomSong}>
-                    <source src={song.url} type="audio/mpeg" />
-                </audio>
-            </div>
-        )
-    }
-}
+  return (
+    <div {...style.page}>
+      <Clock />
+      <audio
+        key={song.url}
+        autoPlay
+        controls
+        onEnded={chooseRandomSong}
+        onLoadStart={onStart}
+        {...style.audioPlayer}
+      >
+        <source src={song.url} type="audio/mpeg" />
+      </audio>
+    </div>
+  );
+};
 
 export default App;
