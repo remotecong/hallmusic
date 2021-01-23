@@ -6,11 +6,12 @@
   "main": "src/electron-starter.js",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "fbjs": "^3.0.0",
     "glamor": "^2.20.40",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-scripts": "^3.4.4"
   },
   "scripts": {
     "build": "react-scripts build",
@@ -40,7 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@electron-forge/cli": "6.0.0-beta.50",
+    "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "6.0.0-beta.50",
     "@electron-forge/maker-rpm": "6.0.0-beta.50",
     "@electron-forge/maker-squirrel": "6.0.0-beta.50",
