@@ -7,11 +7,11 @@ const style = {
   page: css({
     textAlign: "center",
     width: "90vw",
-    margin: "auto",
+    margin: "auto"
   }),
   audioPlayer: css({
     width: "100%",
-    display: "none",
+    display: "none"
   }),
   skipButton: css({
     background: "#711D8C",
@@ -20,15 +20,15 @@ const style = {
     cursor: "pointer",
     fontSize: "2rem",
     outline: "none",
-    padding: "2rem",
-  }),
+    padding: "2rem"
+  })
 };
 
 const App = () => {
   const [songs, setSongs] = React.useState([]);
   const [song, setSong] = React.useState(null);
 
-  const chooseRandomSong = (_songs) => {
+  const chooseRandomSong = _songs => {
     const list = (Array.isArray(_songs) && _songs) || songs;
     if (!list || !list.length) {
       return reloadSongManifest();
@@ -38,7 +38,7 @@ const App = () => {
     setSongs(list.filter((ignore, i) => i !== selectedSong));
   };
   const reloadSongManifest = () => {
-    loadAllSongs().then((files) => {
+    loadAllSongs().then(files => {
       chooseRandomSong(files);
     });
   };
@@ -55,7 +55,7 @@ const App = () => {
   // couldn't use a ref because it's ready after first song
   // and can't use volume attribute for some reason, it's ignored
   // on chrome at least
-  const onStart = (e) => {
+  const onStart = e => {
     e.target.volume = 0.06;
   };
 
