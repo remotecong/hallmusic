@@ -25,11 +25,12 @@ const style = {
 };
 
 const App = () => {
+  const [isFetching, setIsFetching] = React.useState(false);
   const [songs, setSongs] = React.useState([]);
   const [song, setSong] = React.useState(null);
 
   const chooseRandomSong = _songs => {
-    const list = (Array.isArray(_songs) && _songs) || songs;
+    const list = Array.isArray(_songs) ? _songs : songs;
     if (!list || !list.length) {
       return reloadSongManifest();
     }
@@ -37,17 +38,19 @@ const App = () => {
     setSong(list[selectedSong]);
     setSongs(list.filter((ignore, i) => i !== selectedSong));
   };
+
   const reloadSongManifest = () => {
-    loadAllSongs().then(files => {
-      chooseRandomSong(files);
-    });
+    if (!isFetching) {
+      setIsFetching(true);
+      loadAllSongs().then(files => {
+        chooseRandomSong(files);
+        setIsFetching(false);
+      });
+    }
   };
 
-  React.useEffect(() => {
+  if (!song && !songs.length) {
     reloadSongManifest();
-  }, []);
-
-  if (!song) {
     return null;
   }
 
