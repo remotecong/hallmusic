@@ -1,33 +1,31 @@
-import React from 'react';
-import { css } from 'glamor';
-import moment from 'moment';
+import React from "react";
+import { css } from "glamor";
+import moment from "moment";
 
 const style = {
-    clock: css({
-        color: 'white',
-        fontSize: '5rem',
-        padding: '2rem',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-    }),
-}
+  clock: css({
+    color: "white",
+    fontSize: "5rem",
+    padding: "2rem",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }),
+};
 
 export default () => {
-    const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = React.useState(new Date());
 
-    React.useEffect(() => {
-        const refreshTime = () => {
-            const n = new Date();
-            setDate(n);
-            const delay = 60 - n.getSeconds();
-            setTimeout(refreshTime, delay * 1000);
-        };
-        refreshTime();
-    }, []);
+  React.useEffect(() => {
+    const refreshTime = () => {
+      const n = new Date();
+      setDate(n);
+      const delay = 60 - n.getSeconds();
+      setTimeout(refreshTime, delay * 1000);
+    };
+    refreshTime();
+  }, []);
 
-    return (
-        <h1 {...style.clock}>{moment(date).format('LT')}</h1>
-    );
+  return <h1 {...style.clock}>{moment(date).format("LT")}</h1>;
 };
