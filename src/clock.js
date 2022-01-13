@@ -10,8 +10,8 @@ const style = {
     position: "absolute",
     bottom: 0,
     left: 0,
-    right: 0,
-  }),
+    right: 0
+  })
 };
 
 export default () => {
@@ -21,8 +21,7 @@ export default () => {
     const refreshTime = () => {
       const n = new Date();
       setDate(n);
-      const delay = 60 - n.getSeconds();
-      setTimeout(refreshTime, delay * 1000);
+      setTimeout(refreshTime, 1000);
     };
     refreshTime();
   }, []);
