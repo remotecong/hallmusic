@@ -8,7 +8,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "fbjs": "^3.0.0",
     "glamor": "^2.20.40",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "^3.4.4"
